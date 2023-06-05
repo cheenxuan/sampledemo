@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.squareup.picasso.Picasso
@@ -17,6 +18,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class MainActivity : AppCompatActivity() {
+
+    val viewModel: SharedViewModel by lazy {
+        ViewModelProvider(this).get(SharedViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,50 +33,21 @@ class MainActivity : AppCompatActivity() {
         val originTextView = findViewById<AppCompatTextView>(R.id.originTextView)
         val speciesTextView = findViewById<AppCompatTextView>(R.id.speciesTextView)
 
-        //创建moshi
-        val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
-
-        //创建retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://rickandmortyapi.com/api/")
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-
-        //创建service
-        val service: RickAndMortyService = retrofit.create(RickAndMortyService::class.java)
-
-        //创建api请求
-        service.getCharacterById(54).enqueue(object : Callback<GetCharacterByIdResponse> {
-            override fun onResponse(
-                call: Call<GetCharacterByIdResponse>,
-                response: Response<GetCharacterByIdResponse>
-            ) {
-                //请求成功
-                Log.d("MainActivity", response.toString())
-                if (!response.isSuccessful) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Unsuccessful network call!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return
-                }
-
-                val body = response.body()!!
-
-                nameTextView.text = body.name
-                aliveTextView.text = body.status
-                speciesTextView.text = body.species
-                originTextView.text = body.origin.name
-
-                Picasso.get().load(body.image).into(headerImageView)
+        viewModel.refreshCharacter(54)
+        viewModel.characterByIdLiveData.observe(this) { response ->
+            if (response == null) {
+                Toast.makeText(this, "Unsuccessful network call！", Toast.LENGTH_SHORT).show()
+                return@observe
             }
 
-            override fun onFailure(call: Call<GetCharacterByIdResponse>, t: Throwable) {
-                //请求失败
-                Log.d("MainActivity", t.message ?: "")
-            }
-        })
+            nameTextView.text = response.name
+            aliveTextView.text = response.status
+            speciesTextView.text = response.species
+            originTextView.text = response.origin.name
+
+            Picasso.get().load(response.image).into(headerImageView)
+
+        }
 
 
     }
