@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Hello World!"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/genderImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Full Name " />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/genderImageView"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/aliveTextView"
+            app:layout_constraintTop_toBottomOf="@+id/nameTextView"
+            android:layout_marginStart="16dp"
+            android:text="alive"
+            android:textSize="16sp"
+            android:textColor="?attr/colorOnBackground"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

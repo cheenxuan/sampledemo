@@ -1,5 +1,6 @@
-package com.mobile.base.sampledemo
+package com.mobile.base.sampledemo.network
 
+import com.mobile.base.sampledemo.network.response.GetCharacterByIdResponse
 import retrofit2.Response
 
 

@@ -1,4 +1,4 @@
-package com.mobile.base.sampledemo
+package com.mobile.base.sampledemo.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -22,7 +22,7 @@ object NetworkLayer {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
-    val rickAndMortyService:RickAndMortyService by lazy {
+    val rickAndMortyService: RickAndMortyService by lazy {
         retrofit.create(RickAndMortyService::class.java)
     }
 

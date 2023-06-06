@@ -1,4 +1,4 @@
-package com.mobile.base.sampledemo
+package com.mobile.base.sampledemo.network
 
 import retrofit2.Response
 

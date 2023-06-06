@@ -1,6 +1,11 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 android {
@@ -45,6 +50,9 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.8'
     //viewMode + Coroutines
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+
+    implementation 'com.airbnb.android:epoxy:4.4.1'
+    kapt('com.airbnb.android:epoxy-processor:4.4.1')
 
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'

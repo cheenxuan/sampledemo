@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.ViewModelProvider
+import com.airbnb.epoxy.EpoxyRecyclerView
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.squareup.picasso.Picasso
@@ -23,31 +24,26 @@ class MainActivity : AppCompatActivity() {
         ViewModelProvider(this).get(SharedViewModel::class.java)
     }
 
+    private val epoxyController= CharacterDetailEpoxyController()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val nameTextView = findViewById<AppCompatTextView>(R.id.nameTextView)
-        val headerImageView = findViewById<AppCompatImageView>(R.id.headerIamgeView)
-        val aliveTextView = findViewById<AppCompatTextView>(R.id.aliveTextView)
-        val originTextView = findViewById<AppCompatTextView>(R.id.originTextView)
-        val speciesTextView = findViewById<AppCompatTextView>(R.id.speciesTextView)
 
-        viewModel.refreshCharacter(54)
         viewModel.characterByIdLiveData.observe(this) { response ->
+
+            epoxyController.characterResponse = response
+
             if (response == null) {
                 Toast.makeText(this, "Unsuccessful network call！", Toast.LENGTH_SHORT).show()
                 return@observe
             }
-
-            nameTextView.text = response.name
-            aliveTextView.text = response.status
-            speciesTextView.text = response.species
-            originTextView.text = response.origin.name
-
-            Picasso.get().load(response.image).into(headerImageView)
-
         }
+
+        viewModel.refreshCharacter(54)
+
+        val epoxyRecyclerView = findViewById<EpoxyRecyclerView>(R.id.epoxyRecyclerView)
+        epoxyRecyclerView.setControllerAndBuildModels(epoxyController)
 
 
     }
