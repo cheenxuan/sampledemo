@@ -16,4 +16,8 @@ class LoadingEpoxyModel :
 
     }
 
+    override fun getSpanSize(totalSpanCount: Int, position: Int, itemCount: Int): Int {
+        return totalSpanCount
+    }
+
 }

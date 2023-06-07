@@ -5,6 +5,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
+        app:cardCornerRadius="8dp"
         android:layout_height="220dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
