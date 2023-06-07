@@ -2,6 +2,7 @@ package com.mobile.base.sampledemo
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,21 +30,34 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.characterByIdLiveData.observe(this) { response ->
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-            epoxyController.characterResponse = response
+        viewModel.characterByIdLiveData.observe(this) { character ->
 
-            if (response == null) {
+            epoxyController.character = character
+
+            if (character == null) {
                 Toast.makeText(this, "Unsuccessful network call！", Toast.LENGTH_SHORT).show()
                 return@observe
             }
         }
 
-        viewModel.refreshCharacter(54)
+        val id = intent.getIntExtra(Constants.INTENT_EXTRA_CHARACTER_ID, 1)
+        viewModel.refreshCharacter(characterId = id)
 
         val epoxyRecyclerView = findViewById<EpoxyRecyclerView>(R.id.epoxyRecyclerView)
         epoxyRecyclerView.setControllerAndBuildModels(epoxyController)
 
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home ->{
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

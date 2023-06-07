@@ -2,6 +2,7 @@ package com.mobile.base.sampledemo.network
 
 import com.mobile.base.sampledemo.network.response.GetCharacterByIdResponse
 import com.mobile.base.sampledemo.network.response.GetCharactersPageResponse
+import com.mobile.base.sampledemo.network.response.GetEpisodeByIdResponse
 import retrofit2.Response
 
 
@@ -22,6 +23,14 @@ class ApiClient(
 
     suspend fun getCharactersPage(pageIndex: Int): SimpleResponse<GetCharactersPageResponse> {
         return safeApiCall { rickAndMortyService.getCharactersPage(pageIndex) }
+    }
+
+    suspend fun getEpisodeById(episodeId: Int): SimpleResponse<GetEpisodeByIdResponse> {
+        return safeApiCall { rickAndMortyService.getEpisodeById(episodeId) }
+    }
+
+    suspend fun getEpisodeRange(episodeRange: String): SimpleResponse<List<GetEpisodeByIdResponse>> {
+        return safeApiCall { rickAndMortyService.getEpisodeRange(episodeRange) }
     }
 
     private inline fun <T> safeApiCall(apiCall: () -> Response<T>): SimpleResponse<T> {

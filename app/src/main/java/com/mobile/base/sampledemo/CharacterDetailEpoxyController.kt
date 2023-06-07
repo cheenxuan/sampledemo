@@ -8,6 +8,7 @@ import com.mobile.base.sampledemo.epoxy.LoadingEpoxyModel
 import com.mobile.base.sampledemo.epoxy.ViewBindingKotlinModel
 import com.mobile.base.sampledemo.network.response.GetCharacterByIdResponse
 import com.squareup.picasso.Picasso
+import com.mobile.base.sampledemo.domain.models.Character
 
 /**
  * @author Xuan
@@ -26,7 +27,7 @@ class CharacterDetailEpoxyController : EpoxyController() {
             }
         }
 
-    var characterResponse: GetCharacterByIdResponse? = null
+    var character: Character? = null
         set(value) {
             field = value
             if (field != null) {
@@ -42,66 +43,30 @@ class CharacterDetailEpoxyController : EpoxyController() {
             return
         }
 
-        if (characterResponse == null) {
+        if (character == null) {
             //todo error state
             return
         }
 
         //add header model
         HeaderEpoxyModel(
-            name=characterResponse!!.name,
-            gender = characterResponse!!.gender,
-            status = characterResponse!!.status
+            name=character!!.name,
+            gender = character!!.gender,
+            status = character!!.status
         ).id("header").addTo(this)
         //add image model
         ImageEpoxyModel(
-            imageUrl = characterResponse!!.image
+            imageUrl = character!!.image
         ).id("iamge").addTo(this)
         //add data points model(s)
         DataPointEpoxyModel(
             title = "Origin",
-            description = characterResponse!!.origin.name
+            description = character!!.origin.name
         ).id("data_point_1").addTo(this)
 
         DataPointEpoxyModel(
             title = "Species",
-            description = characterResponse!!.species
-        ).id("data_point_2").addTo(this)
-        DataPointEpoxyModel(
-            title = "Origin",
-            description = characterResponse!!.origin.name
-        ).id("data_point_1").addTo(this)
-
-        DataPointEpoxyModel(
-            title = "Species",
-            description = characterResponse!!.species
-        ).id("data_point_2").addTo(this)
-        DataPointEpoxyModel(
-            title = "Origin",
-            description = characterResponse!!.origin.name
-        ).id("data_point_1").addTo(this)
-
-        DataPointEpoxyModel(
-            title = "Species",
-            description = characterResponse!!.species
-        ).id("data_point_2").addTo(this)
-        DataPointEpoxyModel(
-            title = "Origin",
-            description = characterResponse!!.origin.name
-        ).id("data_point_1").addTo(this)
-
-        DataPointEpoxyModel(
-            title = "Species",
-            description = characterResponse!!.species
-        ).id("data_point_2").addTo(this)
-        DataPointEpoxyModel(
-            title = "Origin",
-            description = characterResponse!!.origin.name
-        ).id("data_point_1").addTo(this)
-
-        DataPointEpoxyModel(
-            title = "Species",
-            description = characterResponse!!.species
+            description = character!!.species
         ).id("data_point_2").addTo(this)
 
     }
